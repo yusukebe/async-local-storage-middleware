@@ -4,21 +4,19 @@ import type { Log } from './types'
 
 const app = new Hono()
 
-const { store, get } = asyncLocalStorage<Record<'request', Log>>()
+const { store, get } = asyncLocalStorage<Log>()
 
 app.use(
   store((c) => {
     return {
-      request: {
-        requestId: crypto.randomUUID(),
-        city: (c.req.raw.cf?.city ?? 'nowhere') as string
-      }
+      requestId: crypto.randomUUID(),
+      city: (c.req.raw.cf?.city ?? 'nowhere') as string
     }
   })
 )
 
 app.get('/', async (c) => {
-  return c.json(get('request'))
+  return c.json(`${get('requestId')} is from ${get('city')}`)
 })
 
 export default app
