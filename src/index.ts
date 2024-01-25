@@ -7,12 +7,10 @@ const app = new Hono()
 const { store, get } = asyncLocalStorage<Log>()
 
 app.use(
-  store((c) => {
-    return {
-      requestId: crypto.randomUUID(),
-      city: (c.req.raw.cf?.city ?? 'nowhere') as string
-    }
-  })
+  store((c) => ({
+    requestId: crypto.randomUUID(),
+    city: (c.req.raw.cf?.city ?? 'nowhere') as string
+  }))
 )
 
 app.get('/', async (c) => {
