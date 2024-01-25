@@ -9,7 +9,7 @@ app.use(async (c, next) => {
   await next()
 })
 
-app.get('/', async (c) => {
+app.get('/', (c) => {
   return c.json(`${c.var.requestId} is from ${c.var.city}`)
 })
 
